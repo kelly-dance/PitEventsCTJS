@@ -1,0 +1,7 @@
+{
+  "$schema": "../CTAutoComplete/schema.json",
+  "entry": "index.js",
+  "name": "PitEvents",
+  "requires": ["PitPandaApiKeyManager", "requestV2", "PromiseV2", "PitPanda", "CommandManager", "PersistentData"],
+  "version": "1.0.0"
+}
