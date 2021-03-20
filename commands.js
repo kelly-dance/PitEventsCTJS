@@ -165,7 +165,10 @@ const piteventsCommand = commandBuilder({
         short: 'Info about the module.'
       },
       fn(){
-        ChatLib.chat(new Message('This module pulls events from an API hosted at: ', new TextComponent('&nhttps://events.mcpqndq.dev').setClickAction('open_url').setClickValue('https://events.mcpqndq.dev')))
+        ChatLib.chat(new Message(
+          'This module pulls events from an API hosted at: ',
+          new TextComponent('&nhttps://events.mcpqndq.dev').setClickAction('open_url').setClickValue('https://events.mcpqndq.dev').setHoverAction('show_text').setHoverValue('Open Link')
+        ))
         ChatLib.chat('');
         ChatLib.chat('In order to not bypass owning Pit Supporter this module uses a PitPanda API Key to ensure the user has Pit Supporter (or atleast an account with it).')
       }
@@ -174,12 +177,17 @@ const piteventsCommand = commandBuilder({
       name: 'github',
       aliases: ['gh'],
       description: {
-        short: 'Info about the module.'
+        short: 'Associated repositories.'
       },
       fn(){
-        ChatLib.chat(new TextComponent('&nThis Module').setClickAction('open_url').setClickValue('https://events.mcpqndq.dev'))
-        ChatLib.chat(new TextComponent('&nEvents API').setClickAction('open_url').setClickValue('https://github.com/mcbobby123/pit-events'))
-        ChatLib.chat(new TextComponent('&nPitPanda').setClickAction('open_url').setClickValue('https://github.com/PitPanda'))
+        ChatLib.chat(new Message(
+          'Repos: ',
+          new TextComponent('&nThis Module').setClickAction('open_url').setClickValue('https://github.com/mcbobby123/PitEventsCTJS').setHoverAction('show_text').setHoverValue('Open Link &nhttps://github.com/mcbobby123/PitEventsCTJS'),
+          '   ',
+          new TextComponent('&nEvents API').setClickAction('open_url').setClickValue('https://github.com/mcbobby123/pit-events').setHoverAction('show_text').setHoverValue('Open Link &nhttps://github.com/mcbobby123/pit-events'),
+          '   ',
+          new TextComponent('&nPitPanda').setClickAction('open_url').setClickValue('https://github.com/PitPanda').setHoverAction('show_text').setHoverValue('Open Link &nhttps://github.com/PitPanda'),
+        ))
       }
     },
     setSubCommand,
