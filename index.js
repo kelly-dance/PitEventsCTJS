@@ -17,6 +17,7 @@ const eventColors = {
   'Squads': '&b',
   'Team Deathmatch': '&5',
   'Raffle': '&6',
+  'Rage Pit': '&c',
   '2x Rewards': '&2',
   'Giant Cake': '&d',
   'KOTL': '&a',
