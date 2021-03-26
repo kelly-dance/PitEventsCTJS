@@ -91,7 +91,7 @@ const updateStrings = () => {
     else timeString = timeString.trim();
     const shadow = `&0${e.event} ${timeString}`;
     const actual = `${eventColors[e.event]}${e.event} &9${timeString}`;
-    const width = Renderer.getStringWidth(actual) + 1;
+    const width = Renderer.getStringWidth(`${e.event} ${timeString}`) + 1;
     return { shadow, actual, width };
   });
   const sr = new ScaledResolution(Client.getMinecraft())
