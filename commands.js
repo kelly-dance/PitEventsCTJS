@@ -20,10 +20,11 @@ const setSubCommand = commandBuilder({
         if(args.length === 0) return ChatLib.chat('Provide a number [0-100]. This is when the events hud will render. 0 is all the way left, and 100 is all the way right.');
         const percent = parseFloat(args[0]);
         if(isNaN(percent)) return ChatLib.chat('&cI couldn\'t understand that number, try again.')
-        if(percent < 0 || percent > 100) return ChatLib.chat('&cPlease provide a number 0 <= x <= 100.')
+        if(percent < -10 || percent > 150) return ChatLib.chat('&cPlease provide a number 0 <= x <= 100.')
         settings.x = percent;
         ChatLib.chat('&aSet.')
-      }
+      },
+      params: CM.paramOptionList(['0', '100']),
     },
     {
       name: 'y',
@@ -35,10 +36,11 @@ const setSubCommand = commandBuilder({
         if(args.length === 0) return ChatLib.chat('Provide a number [0-100]. This is when the events hud will render vertically. 0 is the top, and 100 is the bottom.');
         const percent = parseFloat(args[0]);
         if(isNaN(percent)) return ChatLib.chat('&cI couldn\'t understand that number, try again.')
-        if(percent < 0 || percent > 100) return ChatLib.chat('&cPlease provide a number 0 <= x <= 100.')
+        if(percent < -10 || percent > 150) return ChatLib.chat('&cPlease provide a number 0 <= x <= 100.')
         settings.y = percent;
         ChatLib.chat('&aSet.')
-      }
+      },
+      params: CM.paramOptionList(['0', '100']),
     },
     {
       name: 'horizonalalign',
@@ -100,7 +102,7 @@ const setSubCommand = commandBuilder({
         const input = args[0].toLowerCase();
         if(input != 'events' && input != 'time') return ChatLib.chat('Use either "events" or "time" to tell which category to limit displayed events by.');
         settings.limitMode = input;
-        ChatLib.chat('&aSet.')
+        ChatLib.chat('&aSet. You may need to do /ct reload for it to take effect.');
       }
     },
     {
@@ -116,7 +118,7 @@ const setSubCommand = commandBuilder({
         const time = parseFloat(args[0]);
         if(isNaN(time)) return ChatLib.chat('&cI couldn\'t understand that number, try again.')
         settings.timeLimit = time;
-        ChatLib.chat('&aSet.')
+        ChatLib.chat('&aSet. You may need to do /ct reload for it to take effect.');
       }
     },
     {
@@ -132,7 +134,7 @@ const setSubCommand = commandBuilder({
         const time = parseFloat(args[0]);
         if(isNaN(time)) return ChatLib.chat('&cI couldn\'t understand that number, try again.')
         settings.eventsLimit = time;
-        ChatLib.chat('&aSet.')
+        ChatLib.chat('&aSet. You may need to do /ct reload for it to take effect.');
       }
     },
     {
@@ -148,12 +150,87 @@ const setSubCommand = commandBuilder({
           ChatLib.chat('&aReset.')
         }else{
           settings.api = args[0];
-          ChatLib.chat('&aSet.')
+          ChatLib.chat('&aSet. You may need to do /ct reload for it to take effect.');
         }
+      }
+    },
+    {
+      name: 'global',
+      description: {
+        full: 'Toggle events hud outside of pit. Default disabled.',
+        short: 'Toggle events hud outside of pit.'
+      },
+      fn(args){
+        if(args.length === 0) return ChatLib.chat('Use either "true" or "false" to enable or disable.');
+        const input = args[0].toLowerCase();
+        if(input != 'true' && input != 'false') return ChatLib.chat('Use either "true" or "false" to enable or disable.');
+        settings.limitMode = input === 'true';
+        ChatLib.chat('&aSet. You may need to do /ct reload for it to take effect.');
       }
     },
   ]
 });
+
+/** @type {{name:string, config: Partial<import('./settings').Settings>}[]} */
+const presets = [
+  {
+    name: 'defaults',
+    config: {
+      alignHorizontal: 'left',
+      alignVertical: 'top',
+      x: 0,
+      y: 0,
+      reversed: false,
+      limitMode: 'events',
+      eventsLimit: 12,
+      timeLimit: 60,
+      global: false,
+    },
+  },
+  {
+    name: 'mcpqndqs',
+    config: {
+      alignHorizontal: 'right',
+      alignVertical: 'bottom',
+      x: 100,
+      y: 100,
+      reversed: true,
+      limitMode: 'time',
+      timeLimit: 60,
+      global: true,
+    },
+  },
+  {
+    name: 'bottomright',
+    config: {
+      alignHorizontal: 'right',
+      alignVertical: 'bottom',
+      x: 100,
+      y: 100,
+      reversed: true,
+    },
+  },
+  {
+    name: 'topright',
+    config: {
+      alignHorizontal: 'right',
+      alignVertical: 'top',
+      x: 100,
+      y: 0,
+      reversed: false,
+    },
+  },
+  {
+    name: 'topleft',
+    config: {
+      alignHorizontal: 'left',
+      alignVertical: 'top',
+      x: 0,
+      y: 0,
+      reversed: false,
+    },
+  },
+]
 
 const piteventsCommand = commandBuilder({
   name: 'pitevents',
@@ -189,6 +266,30 @@ const piteventsCommand = commandBuilder({
           new TextComponent('&nPitPanda').setClickAction('open_url').setClickValue('https://github.com/PitPanda').setHoverAction('show_text').setHoverValue('Open Link &nhttps://github.com/PitPanda'),
         ))
       }
+    },
+    {
+      name: 'preset',
+      aliases: ['presets'],
+      description: {
+        short: 'Load a preset setting configuation.'
+      },
+      fn(args){
+        const arg = args[0]?.toLowerCase() || 'list';
+        if(arg === 'list'){
+          ChatLib.chat(`&aThe available preset configs are: ${presets.map(c => c.name).join(', ')}.`)
+        }else{
+          const config = presets.find(c => c.name === arg);
+          if(!config){
+            ChatLib.chat('&cInvalid preset name. Use &a/pitevents presets &cto see available presets.')
+            return;
+          }
+          for(const key in config.config){
+            settings[key] = config.config[key];
+          }
+          ChatLib.chat('&aLoaded preset. May take a few seconds to take effect.')
+        }
+      },
+      params: CM.paramOptionList(presets.map(c => c.name)),
     },
     setSubCommand,
   ]

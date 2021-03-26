@@ -2,7 +2,8 @@ import PDObject from '../PersistentData';
 
 const moduleName = 'PitEvents';
 
-/** @type {Partial<{
+/**
+ * @typedef {{
  *  alignHorizontal: 'left' | 'right',
  *  alignVertical: 'top' | 'bottom',
  *  x: number,
@@ -12,7 +13,11 @@ const moduleName = 'PitEvents';
  *  eventsLimit: number,
  *  timeLimit: number,
  *  api: string,
- * }>} */
+ *  global: boolean,
+ * }} Settings
+ */
+
+/** @type {Partial<Settings>} */
 export const settings = new PDObject(moduleName, {
   alignHorizontal: 'left',
   alignVertical: 'top',
@@ -23,4 +28,5 @@ export const settings = new PDObject(moduleName, {
   eventsLimit: 12,
   timeLimit: 60,
   api: 'https://events.mcpqndq.dev',
+  global: false,
 }, 'settings.json');
