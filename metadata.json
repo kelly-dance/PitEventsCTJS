@@ -3,5 +3,5 @@
   "entry": "index.js",
   "name": "PitEvents",
   "requires": ["PitPandaApiKeyManager", "requestV2", "PromiseV2", "PitPanda", "CommandManager", "PersistentData"],
-  "version": "1.0.1"
+  "version": "1.1.0"
 }
