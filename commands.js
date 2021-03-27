@@ -164,9 +164,10 @@ const setSubCommand = commandBuilder({
         if(args.length === 0) return ChatLib.chat('Use either "true" or "false" to enable or disable.');
         const input = args[0].toLowerCase();
         if(input != 'true' && input != 'false') return ChatLib.chat('Use either "true" or "false" to enable or disable.');
-        settings.limitMode = input === 'true';
+        settings.global = input === 'true';
         ChatLib.chat('&aSet. You may need to do /ct reload for it to take effect.');
-      }
+      },
+      params: CM.paramOptionList(['true','false']),
     },
   ]
 });
