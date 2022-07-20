@@ -10,6 +10,8 @@ import './commands';
 
 const ScaledResolution = Java.type('net.minecraft.client.gui.ScaledResolution');
 
+const majorEvents = {'Blockhead': true, 'Pizza': true, 'Beast': true, 'Robbery': true, 'Spire': true, 'Squads': true, 'Team Deathmatch': true, 'Raffle': true, 'Rage Pit': true};
+
 const eventColors = {
   'Blockhead': '&6',
   'Pizza': '&c',
@@ -89,9 +91,10 @@ const updateStrings = () => {
     if(minutes) timeString += ` ${minutes}m`;
     if(!timeString) timeString = '0m';
     else timeString = timeString.trim();
-    const shadow = `&0${e.event} ${timeString}`;
-    const actual = `${eventColors[e.event]}${e.event} &9${timeString}`;
-    const width = Renderer.getStringWidth(`${e.event} ${timeString}`) + 1;
+    const majorBold = majorEvents[e.event] && settings.boldMajors ? '&l' : ''
+    const shadow = `&0${majorBold}${e.event} ${timeString}`;
+    const actual = `${eventColors[e.event]}${majorBold}${e.event} &9${majorBold}${timeString}`;
+    const width = Renderer.getStringWidth(actual) + 1;
     return { shadow, actual, width };
   });
   const sr = new ScaledResolution(Client.getMinecraft())

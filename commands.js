@@ -169,6 +169,20 @@ const setSubCommand = commandBuilder({
       },
       params: CM.paramOptionList(['true','false']),
     },
+    {
+      name: 'boldmajors',
+      description: {
+        full: 'Toggle bold on major events on the events list. Default disabled.',
+        short: 'Toggle bold on major events.'
+      },
+      fn(args){
+        if(args.length === 0) return ChatLib.chat('Use either "true" or "false" to enable or disable.');
+        const input = args[0].toLowerCase();
+        if(input != 'true' && input != 'false') return ChatLib.chat('Use either "true" or "false" to enable or disable.');
+        settings.boldMajors = input === 'true';
+        ChatLib.chat('&aSet. You may need to do /ct reload for it to take effect.');
+      },
+    },
   ]
 });
 

@@ -29,4 +29,5 @@ export const settings = new PDObject(moduleName, {
   timeLimit: 60,
   api: 'https://events.mcpqndq.dev',
   global: false,
+  boldMajors: false,
 }, 'settings.json');
